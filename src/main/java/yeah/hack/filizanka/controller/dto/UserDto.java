@@ -26,9 +26,9 @@ public class UserDto {
 
     private Long credits;
 
-    private Set<Long> skinIds;
+    private Set<SkinDto> skins;
 
-    private Set<Long> carriageIds;
+    private Set<CarriageDto> carriages;
 
     private Set<Long> eggIds;
 
@@ -41,8 +41,8 @@ public class UserDto {
                 .name(source.getName())
                 .activeSkinId(source.getActiveSkin() == null ? 0 : source.getActiveSkin().getSkinId())
                 .credits(source.getCredits())
-                .skinIds(source.getSkins().stream().map(Skin::getSkinId).collect(Collectors.toSet()))
-                .carriageIds(source.getCarriages().stream().map(Carriage::getCarriageId).collect(Collectors.toSet()))
+                .skins(source.getSkins().stream().map(SkinDto::from).collect(Collectors.toSet()))
+                .carriages(source.getCarriages().stream().map(CarriageDto::from).collect(Collectors.toSet()))
                 .eggIds(source.getEggs().stream().map(Egg::getEggId).collect(Collectors.toSet()))
                 .currentTrainRide(source.getCurrentTrainRide().getTrainRideId())
                 .build();

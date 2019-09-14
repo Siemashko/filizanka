@@ -35,6 +35,7 @@ public class User {
     private Long credits;
 
     @ManyToOne(optional=true)
+    @JoinColumn(name="skin_id")
     private Skin activeSkin;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -44,7 +45,7 @@ public class User {
     private Set<Skin> skins;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_skin",
+    @JoinTable(name = "user_carriage",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "carriage_id"))
     private Set<Carriage> carriages;
