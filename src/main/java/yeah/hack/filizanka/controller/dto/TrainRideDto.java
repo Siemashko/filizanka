@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import yeah.hack.filizanka.model.Point;
 import yeah.hack.filizanka.model.TrainRide;
 
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
@@ -19,18 +19,15 @@ public class TrainRideDto {
 
     private String trainRideId;
 
-    private Set<Long> stations;
+    private List<Long> pointIds;
 
-    private Double lng;
-
-    private Double lat;
+    private Long lastVisitedPointId;
 
     public static TrainRideDto from(TrainRide source) {
         return TrainRideDto.builder()
                 .trainRideId(source.getTrainRideId())
-                .stations(source.getPoints().stream().map(Point::getStationId).collect(Collectors.toSet()))
-                .lng(source.getLng())
-                .lat(source.getLat())
+                .pointIds(source.getPoints().stream().map(Point::getPointId).collect(Collectors.toList()))
+                .lastVisitedPointId(source.getLastVisitedPoint().getPointId())
                 .build();
     }
 

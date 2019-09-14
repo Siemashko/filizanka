@@ -11,8 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-import java.util.Set;
+import javax.persistence.ManyToOne;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -23,16 +23,15 @@ public class TrainRide {
     @Id
     private String trainRideId;
 
-    @OneToOne
+    @ManyToOne
     private Train train;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "train_ride_station",
+    @JoinTable(name = "train_ride_point",
             joinColumns = @JoinColumn(name = "train_ride_id"),
-            inverseJoinColumns = @JoinColumn(name = "station_id"))
-    private Set<Point> points;
+            inverseJoinColumns = @JoinColumn(name = "point"))
+    private List<Point> points;
 
-    private Double lng;
-
-    private Double lat;
+    @ManyToOne
+    private Point lastVisitedPoint;
 }
