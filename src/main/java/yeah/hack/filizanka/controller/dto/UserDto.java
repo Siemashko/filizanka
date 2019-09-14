@@ -32,6 +32,10 @@ public class UserDto {
 
     private Set<Long> eggIds;
 
+    private PointDto destination;
+
+    private PointDto lastVisited;
+
     private String currentTrainRide;
 
     public static UserDto from(User source) {
@@ -44,7 +48,9 @@ public class UserDto {
                 .skins(source.getSkins().stream().map(SkinDto::from).collect(Collectors.toSet()))
                 .carriages(source.getCarriages().stream().map(CarriageDto::from).collect(Collectors.toSet()))
                 .eggIds(source.getEggs().stream().map(Egg::getEggId).collect(Collectors.toSet()))
-                .currentTrainRide(source.getCurrentTrainRide().getTrainRideId())
+                .destination(source.getDestination() == null ? null : PointDto.from(source.getDestination()))
+                .lastVisited(source.getLastPoint() == null ? null : PointDto.from(source.getLastPoint()))
+                .currentTrainRide(source.getCurrentTrainRide() == null ? null : source.getCurrentTrainRide().getTrainRideId())
                 .build();
 
     }

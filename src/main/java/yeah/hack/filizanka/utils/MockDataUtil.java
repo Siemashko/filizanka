@@ -3,7 +3,6 @@ package yeah.hack.filizanka.utils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import yeah.hack.filizanka.model.Carriage;
@@ -71,21 +70,34 @@ public class MockDataUtil {
         }
         carriageRepository.saveAll(carriages);
 
-        final Train train = Train.builder().trainType("Pendolino").build();
+        final Train pendolino = Train.builder().trainId(1L).trainType("Pendolino").build();
+        final Train thomas = Train.builder().trainId(2L).trainType("Thomas").build();
 
-        trainRepository.saveAndFlush(train);
 
-        final TrainRide trainRide = new TrainRide("1", train,points,points.get(0));
+        trainRepository.saveAndFlush(pendolino);
+        trainRepository.saveAndFlush(thomas);
+
+
+        final TrainRide trainRide = new TrainRide("1", pendolino, points, points.get(0));
+
+        final TrainRide trainRide2 = new TrainRide("2", thomas, points.subList(0, 10), points.get(0));
+
 
         trainRideRepository.save(trainRide);
+        trainRideRepository.save(trainRide2);
 
-        userRepository.save(User.builder().userId(1L).name("Emil").currentTrainRide(trainRide).credits(0L).build());
-        userRepository.save(User.builder().userId(2L).name("Kacper").currentTrainRide(trainRide).credits(0L).build());
+        userRepository.save(User.builder().userId(1L).name("Emil").currentTrainRide(trainRide)
+                .destination(points.get(points.size() - 1)).lastPoint(points.get(0)).credits(0L).build());
+        userRepository.save(User.builder().userId(2L).name("Kacper").currentTrainRide(trainRide)
+                .destination(points.get(points.size() - 1)).lastPoint(points.get(0)).credits(0L).build());
         userRepository
-                .save(User.builder().userId(3L).name("Krystian1").currentTrainRide(trainRide).credits(0L).build());
+                .save(User.builder().userId(3L).name("Krystian1").currentTrainRide(trainRide)
+                        .destination(points.get(points.size() - 1)).lastPoint(points.get(0)).credits(0L).build());
         userRepository
-                .save(User.builder().userId(4L).name("Krystian2").currentTrainRide(trainRide).credits(0L).build());
-        userRepository.save(User.builder().userId(5L).name("Paweł").currentTrainRide(trainRide).credits(0L).build());
+                .save(User.builder().userId(4L).name("Krystian2").currentTrainRide(trainRide)
+                        .destination(points.get(points.size() - 1)).lastPoint(points.get(0)).credits(0L).build());
+        userRepository.save(User.builder().userId(5L).name("Paweł").currentTrainRide(trainRide)
+                .destination(points.get(points.size() - 1)).lastPoint(points.get(0)).credits(0L).build());
 
     }
 
