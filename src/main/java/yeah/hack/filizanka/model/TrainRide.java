@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OrderColumn;
 import java.util.List;
 
 @Entity
@@ -30,8 +31,10 @@ public class TrainRide {
     @JoinTable(name = "train_ride_point",
             joinColumns = @JoinColumn(name = "train_ride_id"),
             inverseJoinColumns = @JoinColumn(name = "point"))
+    @OrderColumn(name="INDEX")
     private List<Point> points;
 
     @ManyToOne
     private Point lastVisitedPoint;
+
 }

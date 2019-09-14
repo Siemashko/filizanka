@@ -16,10 +16,13 @@ public class SkinDto {
 
     private Long carriageId;
 
+    private Long price;
+
     public static SkinDto from(Skin source) {
         return SkinDto.builder()
                 .skinId(source.getSkinId())
                 .carriageId(source.getCarriage().getCarriageId())
+                .price(source.getPrice())
                 .build();
     }
 

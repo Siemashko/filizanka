@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import yeah.hack.filizanka.model.Carriage;
 import yeah.hack.filizanka.model.Point;
 import yeah.hack.filizanka.model.Train;
@@ -23,7 +25,8 @@ import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.List;
 
-@Component
+@Service
+@Transactional
 @RequiredArgsConstructor
 public class MockDataUtil {
 
@@ -36,6 +39,10 @@ public class MockDataUtil {
     private final CarriageRepository carriageRepository;
 
     @PostConstruct
+    public void postConstruct() {
+        importData();
+    }
+
     public void importData() {
         ObjectMapper mapper = new ObjectMapper();
         String pointsJsonString = readLineByLine(CITIES_RESOURCE_FILE_PATH);
@@ -43,18 +50,22 @@ public class MockDataUtil {
         List<Point> points = null;
 
         try {
-            points = mapper.readValue(pointsJsonString, new TypeReference<List<Point>>() {});
+            points = mapper.readValue(pointsJsonString, new TypeReference<List<Point>>() {
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         pointRepository.saveAll(points);
 
+        pointRepository.flush();
+
         List<Carriage> carriages = null;
         String carriagesJsonString = readLineByLine(CARRIAGES_RESOURCE_FILE_PATH);
 
         try {
-            carriages = mapper.readValue(carriagesJsonString, new TypeReference<List<Carriage>>() {});
+            carriages = mapper.readValue(carriagesJsonString, new TypeReference<List<Carriage>>() {
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,7 +75,7 @@ public class MockDataUtil {
 
         trainRepository.saveAndFlush(train);
 
-        final TrainRide trainRide = new TrainRide("1", train, points, points.get(0));
+        final TrainRide trainRide = new TrainRide("1", train,points,points.get(0));
 
         trainRideRepository.save(trainRide);
 

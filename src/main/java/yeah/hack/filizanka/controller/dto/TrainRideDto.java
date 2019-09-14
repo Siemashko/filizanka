@@ -18,6 +18,8 @@ public class TrainRideDto {
 
     private String trainRideId;
 
+    private TrainDto train;
+
     private List<PointDto> points;
 
     private Long lastVisitedPointId;
@@ -25,6 +27,7 @@ public class TrainRideDto {
     public static TrainRideDto from(TrainRide source) {
         return TrainRideDto.builder()
                 .trainRideId(source.getTrainRideId())
+                .train(TrainDto.from(source.getTrain()))
                 .points(source.getPoints().stream().map(PointDto::from).collect(Collectors.toList()))
                 .lastVisitedPointId(source.getLastVisitedPoint().getPointId())
                 .build();

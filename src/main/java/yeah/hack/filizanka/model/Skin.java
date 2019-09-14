@@ -24,4 +24,6 @@ public class Skin {
     @ManyToOne(optional = false)
     @JoinColumn(name="carriage_id")
     private Carriage carriage;
+
+    private Long price;
 }
